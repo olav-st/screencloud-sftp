@@ -148,9 +148,11 @@ class SFTPUploader():
 						pass
 			source = tmpFilename
 			destination = self.folder + "/" + ScreenCloud.formatFilename(filename)
+			png_build = bytes()
 			with open(source, 'rb') as local_fh, sftp.open(destination, f_flags, mode) as remote_fh:
 				for data in local_fh:
-					remote_fh.write(data)
+					png_build += data
+				remote_fh.write(png_build)
 		except IOError:
 			ScreenCloud.setError("Failed to write " + self.folder + "/" + ScreenCloud.formatFilename(name) + ". Check permissions.")
 			return False
